@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/iv_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/phrase_phrase_add"
+        android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="h,1:1"/>
+    <TextView
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:id="@+id/tv_content"
+        android:background="@drawable/dc_phrase_phrase_7"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="忙碌"
+        app:layout_constraintDimensionRatio="h,1:1"/>
+    <ImageView
+        android:id="@+id/iv_schedule_select"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/it_unselect"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

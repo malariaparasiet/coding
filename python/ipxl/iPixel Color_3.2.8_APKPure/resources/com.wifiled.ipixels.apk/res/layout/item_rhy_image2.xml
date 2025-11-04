@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="266.5938dp"
+        android:layout_height="133.3dp"
+        android:src="@mipmap/rhythm_picture_bg"
+        android:layout_centerInParent="true"/>
+    <ImageView
+        android:id="@+id/iv_rhy_image"
+        android:layout_width="260dp"
+        android:layout_height="126dp"
+        android:scaleType="fitXY"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

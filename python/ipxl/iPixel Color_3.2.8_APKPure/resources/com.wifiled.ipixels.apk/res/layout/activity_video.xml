@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/black"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/layout_surface_view"
+        android:background="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/seekbar">
+        <com.wifiled.ipixels.view.video_clip.ZVideoView
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:maxHeight="1dp"
+        android:progressDrawable="@drawable/seekbar_progress"
+        android:thumb="@null"
+        android:layout_above="@+id/fl_preview"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"/>
+    <include layout="@layout/toolbar_layout"/>
+    <FrameLayout
+        android:id="@+id/fl_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/iv_preview"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"/>
+    </FrameLayout>
+</RelativeLayout>

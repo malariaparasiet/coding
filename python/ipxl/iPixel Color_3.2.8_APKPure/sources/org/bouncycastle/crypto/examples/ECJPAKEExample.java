@@ -1,0 +1,116 @@
+package org.bouncycastle.crypto.examples;
+
+import androidx.autofill.HintConstants;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import org.bouncycastle.crypto.CryptoException;
+import org.bouncycastle.crypto.SavableDigest;
+import org.bouncycastle.crypto.agreement.ecjpake.ECJPAKECurve;
+import org.bouncycastle.crypto.agreement.ecjpake.ECJPAKECurves;
+import org.bouncycastle.crypto.agreement.ecjpake.ECJPAKEParticipant;
+import org.bouncycastle.crypto.agreement.ecjpake.ECJPAKERound1Payload;
+import org.bouncycastle.crypto.agreement.ecjpake.ECJPAKERound2Payload;
+import org.bouncycastle.crypto.agreement.ecjpake.ECJPAKERound3Payload;
+import org.bouncycastle.crypto.digests.SHA256Digest;
+import org.bouncycastle.math.ec.ECPoint;
+
+/* loaded from: classes3.dex */
+public class ECJPAKEExample {
+    private static BigInteger deriveSessionKey(BigInteger bigInteger) {
+        SavableDigest newInstance = SHA256Digest.newInstance();
+        byte[] byteArray = bigInteger.toByteArray();
+        byte[] bArr = new byte[newInstance.getDigestSize()];
+        newInstance.update(byteArray, 0, byteArray.length);
+        newInstance.doFinal(bArr, 0);
+        return new BigInteger(bArr);
+    }
+
+    public static void main(String[] strArr) throws CryptoException {
+        ECJPAKECurve eCJPAKECurve = ECJPAKECurves.NIST_P256;
+        BigInteger a = eCJPAKECurve.getA();
+        BigInteger b = eCJPAKECurve.getB();
+        ECPoint g = eCJPAKECurve.getG();
+        BigInteger h = eCJPAKECurve.getH();
+        BigInteger n = eCJPAKECurve.getN();
+        BigInteger q = eCJPAKECurve.getQ();
+        System.out.println("********* Initialization **********");
+        System.out.println("Public parameters for the elliptic curve over prime field:");
+        System.out.println("Curve param a (" + a.bitLength() + " bits): " + a.toString(16));
+        System.out.println("Curve param b (" + b.bitLength() + " bits): " + b.toString(16));
+        System.out.println("Co-factor h (" + h.bitLength() + " bits): " + h.toString(16));
+        System.out.println("Base point G (" + g.getEncoded(true).length + " bytes): " + new BigInteger(g.getEncoded(true)).toString(16));
+        System.out.println("X coord of G (G not normalised) (" + g.getXCoord().toBigInteger().bitLength() + " bits): " + g.getXCoord().toBigInteger().toString(16));
+        System.out.println("y coord of G (G not normalised) (" + g.getYCoord().toBigInteger().bitLength() + " bits): " + g.getYCoord().toBigInteger().toString(16));
+        System.out.println("Order of the base point n (" + n.bitLength() + " bits): " + n.toString(16));
+        System.out.println("Prime field q (" + q.bitLength() + " bits): " + q.toString(16));
+        System.out.println("");
+        System.out.println("(Secret passwords used by Alice and Bob: \"password\" and \"password\")\n");
+        SavableDigest newInstance = SHA256Digest.newInstance();
+        SecureRandom secureRandom = new SecureRandom();
+        ECJPAKEParticipant eCJPAKEParticipant = new ECJPAKEParticipant("alice", HintConstants.AUTOFILL_HINT_PASSWORD.toCharArray(), eCJPAKECurve, newInstance, secureRandom);
+        ECJPAKEParticipant eCJPAKEParticipant2 = new ECJPAKEParticipant("bob", HintConstants.AUTOFILL_HINT_PASSWORD.toCharArray(), eCJPAKECurve, newInstance, secureRandom);
+        ECJPAKERound1Payload createRound1PayloadToSend = eCJPAKEParticipant.createRound1PayloadToSend();
+        ECJPAKERound1Payload createRound1PayloadToSend2 = eCJPAKEParticipant2.createRound1PayloadToSend();
+        System.out.println("************ Round 1 **************");
+        System.out.println("Alice sends to Bob: ");
+        System.out.println("g^{x1}=" + new BigInteger(createRound1PayloadToSend.getGx1().getEncoded(true)).toString(16));
+        System.out.println("g^{x2}=" + new BigInteger(createRound1PayloadToSend.getGx2().getEncoded(true)).toString(16));
+        System.out.println("KP{x1}: {V=" + new BigInteger(createRound1PayloadToSend.getKnowledgeProofForX1().getV().getEncoded(true)).toString(16) + "; r=" + createRound1PayloadToSend.getKnowledgeProofForX1().getr().toString(16) + "}");
+        System.out.println("KP{x2}: {V=" + new BigInteger(createRound1PayloadToSend.getKnowledgeProofForX2().getV().getEncoded(true)).toString(16) + "; r=" + createRound1PayloadToSend.getKnowledgeProofForX2().getr().toString(16) + "}");
+        System.out.println("");
+        System.out.println("Bob sends to Alice: ");
+        System.out.println("g^{x3}=" + new BigInteger(createRound1PayloadToSend2.getGx1().getEncoded(true)).toString(16));
+        System.out.println("g^{x4}=" + new BigInteger(createRound1PayloadToSend2.getGx2().getEncoded(true)).toString(16));
+        System.out.println("KP{x3}: {V=" + new BigInteger(createRound1PayloadToSend2.getKnowledgeProofForX1().getV().getEncoded(true)).toString(16) + "; r=" + createRound1PayloadToSend2.getKnowledgeProofForX1().getr().toString(16) + "}");
+        System.out.println("KP{x4}: {V=" + new BigInteger(createRound1PayloadToSend2.getKnowledgeProofForX2().getV().getEncoded(true)).toString(16) + "; r=" + createRound1PayloadToSend2.getKnowledgeProofForX2().getr().toString(16) + "}");
+        System.out.println("");
+        eCJPAKEParticipant.validateRound1PayloadReceived(createRound1PayloadToSend2);
+        System.out.println("Alice checks g^{x4}!=1: OK");
+        System.out.println("Alice checks KP{x3}: OK");
+        System.out.println("Alice checks KP{x4}: OK");
+        System.out.println("");
+        eCJPAKEParticipant2.validateRound1PayloadReceived(createRound1PayloadToSend);
+        System.out.println("Bob checks g^{x2}!=1: OK");
+        System.out.println("Bob checks KP{x1},: OK");
+        System.out.println("Bob checks KP{x2},: OK");
+        System.out.println("");
+        ECJPAKERound2Payload createRound2PayloadToSend = eCJPAKEParticipant.createRound2PayloadToSend();
+        ECJPAKERound2Payload createRound2PayloadToSend2 = eCJPAKEParticipant2.createRound2PayloadToSend();
+        System.out.println("************ Round 2 **************");
+        System.out.println("Alice sends to Bob: ");
+        System.out.println("A=" + new BigInteger(createRound2PayloadToSend.getA().getEncoded(true)).toString(16));
+        System.out.println("KP{x2*s}: {V=" + new BigInteger(createRound2PayloadToSend.getKnowledgeProofForX2s().getV().getEncoded(true)).toString(16) + ", r=" + createRound2PayloadToSend.getKnowledgeProofForX2s().getr().toString(16) + "}");
+        System.out.println("");
+        System.out.println("Bob sends to Alice");
+        System.out.println("B=" + new BigInteger(createRound2PayloadToSend2.getA().getEncoded(true)).toString(16));
+        System.out.println("KP{x4*s}: {V=" + new BigInteger(createRound2PayloadToSend2.getKnowledgeProofForX2s().getV().getEncoded(true)).toString(16) + ", r=" + createRound2PayloadToSend2.getKnowledgeProofForX2s().getr().toString(16) + "}");
+        System.out.println("");
+        eCJPAKEParticipant.validateRound2PayloadReceived(createRound2PayloadToSend2);
+        System.out.println("Alice checks KP{x4*s}: OK\n");
+        eCJPAKEParticipant2.validateRound2PayloadReceived(createRound2PayloadToSend);
+        System.out.println("Bob checks KP{x2*s}: OK\n");
+        BigInteger calculateKeyingMaterial = eCJPAKEParticipant.calculateKeyingMaterial();
+        BigInteger calculateKeyingMaterial2 = eCJPAKEParticipant2.calculateKeyingMaterial();
+        System.out.println("********* After round 2 ***********");
+        System.out.println("Alice computes key material \t K=" + calculateKeyingMaterial.toString(16));
+        System.out.println("Bob computes key material \t K=" + calculateKeyingMaterial2.toString(16));
+        System.out.println();
+        deriveSessionKey(calculateKeyingMaterial);
+        deriveSessionKey(calculateKeyingMaterial2);
+        ECJPAKERound3Payload createRound3PayloadToSend = eCJPAKEParticipant.createRound3PayloadToSend(calculateKeyingMaterial);
+        ECJPAKERound3Payload createRound3PayloadToSend2 = eCJPAKEParticipant2.createRound3PayloadToSend(calculateKeyingMaterial2);
+        System.out.println("************ Round 3 **************");
+        System.out.println("Alice sends to Bob: ");
+        System.out.println("MacTag=" + createRound3PayloadToSend.getMacTag().toString(16));
+        System.out.println("");
+        System.out.println("Bob sends to Alice: ");
+        System.out.println("MacTag=" + createRound3PayloadToSend2.getMacTag().toString(16));
+        System.out.println("");
+        eCJPAKEParticipant.validateRound3PayloadReceived(createRound3PayloadToSend2, calculateKeyingMaterial);
+        System.out.println("Alice checks MacTag: OK\n");
+        eCJPAKEParticipant2.validateRound3PayloadReceived(createRound3PayloadToSend, calculateKeyingMaterial2);
+        System.out.println("Bob checks MacTag: OK\n");
+        System.out.println();
+        System.out.println("MacTags validated, therefore the keying material matches.");
+    }
+}

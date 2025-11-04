@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/dark_gray"/>
+    <item
+        android:drawable="@mipmap/diy_icon_add"
+        android:top="20dp"
+        android:bottom="20dp"
+        android:start="160dp"
+        android:end="160dp"/>
+</layer-list>

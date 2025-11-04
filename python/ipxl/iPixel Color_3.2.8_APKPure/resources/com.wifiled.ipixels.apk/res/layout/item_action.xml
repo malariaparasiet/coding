@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/item_action_selector"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:textSize="20sp"
+        android:textColor="@color/blue"
+        android:gravity="center"
+        android:id="@+id/tv_action"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/title_diy_app_photos"/>
+</LinearLayout>

@@ -1,0 +1,35 @@
+Manifest-Version: 1.0
+
+Name: AndroidManifest.xml
+SHA1-Digest: rfj8SdO+/VdoDJL3HZz6gM//SG4=
+
+Name: lib/arm64-v8a/libimage_processing_util_jni.so
+SHA1-Digest: vUJZDlsVpdNx2vtRqx8qA3UafRw=
+
+Name: lib/arm64-v8a/libint16fft.so
+SHA1-Digest: CMNnsK7R923U75ZcrepUwPnX4mY=
+
+Name: lib/arm64-v8a/libjl_ota_auth.so
+SHA1-Digest: jyjJX/dKyJsB87geYEfkVr1P8pg=
+
+Name: lib/arm64-v8a/libpl_droidsonroids_gif.so
+SHA1-Digest: 3XTE73p7YPSbchVrn2dOHQgyCWg=
+
+Name: lib/arm64-v8a/libsurface_util_jni.so
+SHA1-Digest: RuucNBozK+K0qZYKOrzqdSR1QCQ=
+
+Name: lib/arm64-v8a/libucrop.so
+SHA1-Digest: 536r4rWRW11icQroE8pjsHoAkMA=
+
+Name: lib/arm64-v8a/libyuv-decoder.so
+SHA1-Digest: iQjUy/6MxYN7LBNbDc34eWSQrns=
+
+Name: lib/arm64-v8a/libyuv.so
+SHA1-Digest: Ws8M+A2gf7RzDuJdWcRxuFnzxV0=
+
+Name: lib/arm64-v8a/libyuvutil.so
+SHA1-Digest: JD1cj9Nay6BMBNtPAXDeOj3CzSQ=
+
+Name: stamp-cert-sha256
+SHA1-Digest: 5vTkm69vqAbusD/fho7oWwc7j+I=
+

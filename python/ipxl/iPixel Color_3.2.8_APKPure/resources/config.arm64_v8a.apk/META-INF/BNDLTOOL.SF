@@ -1,0 +1,38 @@
+Signature-Version: 1.0
+Created-By: 1.0 (Android)
+SHA1-Digest-Manifest: qV37cqBzsus7NiIHYEOwNbdK4uM=
+X-Android-APK-Signed: 2, 3
+
+Name: AndroidManifest.xml
+SHA1-Digest: zs5gHUZZL+MwWFhsRahtzj8rGkU=
+
+Name: lib/arm64-v8a/libimage_processing_util_jni.so
+SHA1-Digest: bY/Kgy5V846MW2SSgGRYyfvYwls=
+
+Name: lib/arm64-v8a/libint16fft.so
+SHA1-Digest: YlQS5+lRLBjK/uq3m2Fn8f9djs4=
+
+Name: lib/arm64-v8a/libjl_ota_auth.so
+SHA1-Digest: C+H7mGr90tEiF1cjpEjWJ2HasdM=
+
+Name: lib/arm64-v8a/libpl_droidsonroids_gif.so
+SHA1-Digest: OWqr4LiFB5wL5fq/2aPPwCxOOS8=
+
+Name: lib/arm64-v8a/libsurface_util_jni.so
+SHA1-Digest: 6EMAtNAjZUtxGFvk9x6kMYc8Y68=
+
+Name: lib/arm64-v8a/libucrop.so
+SHA1-Digest: jr9F+08bk+EhcuYU+oEBpH0e2ds=
+
+Name: lib/arm64-v8a/libyuv-decoder.so
+SHA1-Digest: VecvIvEXiCzFDdwUV2JR222uhmc=
+
+Name: lib/arm64-v8a/libyuv.so
+SHA1-Digest: aUezwlAwgmBop5bllpvVIaPzY2o=
+
+Name: lib/arm64-v8a/libyuvutil.so
+SHA1-Digest: VjLKydOIJNDS/5ZTuz6kK0t+FCE=
+
+Name: stamp-cert-sha256
+SHA1-Digest: Bs40BvDZ1xrbgQrPTD2x5w/NfHQ=
+

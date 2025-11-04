@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.wifiled.baselib.uicode.view.ToolBarView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolBarView"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/common_toolbar_height"
+    android:minHeight="44dp"
+    android:navigationIcon="@null"
+    app:centerText=""
+    app:centerTextColor="#000"
+    app:leftImageView="@drawable/ic_common_back_black"
+    app:popupTheme="@style/popup_theme"
+    app:rightTextColor="#000"
+    app:showBottomLine="false"
+    style="@style/base_toolbar"/>

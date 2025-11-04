@@ -1,0 +1,70 @@
+package org.bouncycastle.util;
+
+/* loaded from: classes4.dex */
+public class Bytes {
+    public static final int BYTES = 1;
+    public static final int SIZE = 8;
+
+    public static void xor(int i, byte[] bArr, int i2, byte[] bArr2, int i3, byte[] bArr3, int i4) {
+        for (int i5 = 0; i5 < i; i5++) {
+            bArr3[i4 + i5] = (byte) (bArr[i2 + i5] ^ bArr2[i3 + i5]);
+        }
+    }
+
+    public static void xor(int i, byte[] bArr, int i2, byte[] bArr2, byte[] bArr3, int i3) {
+        int i4 = 0;
+        while (i4 < i) {
+            bArr3[i3] = (byte) (bArr[i2] ^ bArr2[i4]);
+            i4++;
+            i3++;
+            i2++;
+        }
+    }
+
+    public static void xor(int i, byte[] bArr, byte[] bArr2, int i2, byte[] bArr3, int i3) {
+        int i4 = 0;
+        while (i4 < i) {
+            bArr3[i3] = (byte) (bArr2[i2] ^ bArr[i4]);
+            i4++;
+            i3++;
+            i2++;
+        }
+    }
+
+    public static void xor(int i, byte[] bArr, byte[] bArr2, byte[] bArr3) {
+        for (int i2 = 0; i2 < i; i2++) {
+            bArr3[i2] = (byte) (bArr[i2] ^ bArr2[i2]);
+        }
+    }
+
+    public static void xor(int i, byte[] bArr, byte[] bArr2, byte[] bArr3, int i2) {
+        int i3 = 0;
+        while (i3 < i) {
+            bArr3[i2] = (byte) (bArr[i3] ^ bArr2[i3]);
+            i3++;
+            i2++;
+        }
+    }
+
+    public static void xorTo(int i, byte[] bArr, int i2, byte[] bArr2) {
+        int i3 = 0;
+        while (i3 < i) {
+            bArr2[i3] = (byte) (bArr[i2] ^ bArr2[i3]);
+            i3++;
+            i2++;
+        }
+    }
+
+    public static void xorTo(int i, byte[] bArr, int i2, byte[] bArr2, int i3) {
+        for (int i4 = 0; i4 < i; i4++) {
+            int i5 = i3 + i4;
+            bArr2[i5] = (byte) (bArr2[i5] ^ bArr[i2 + i4]);
+        }
+    }
+
+    public static void xorTo(int i, byte[] bArr, byte[] bArr2) {
+        for (int i2 = 0; i2 < i; i2++) {
+            bArr2[i2] = (byte) (bArr2[i2] ^ bArr[i2]);
+        }
+    }
+}
