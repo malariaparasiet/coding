@@ -1,7 +1,30 @@
 import asyncio
 from bleak import BleakClient
+import PIL
+from PIL import Image, ImageColor
 
 WRITE_CHAR_UUID = "0000fa02-0000-1000-8000-00805f9b34fb"
+
+def image_to_rgb(image_path: str, size=(16, 16)) -> bytes:
+    """Convert an image to raw RGB bytes (8-bit per channel)."""
+    with Image.open(image_path) as im:
+        # Ensure it's in RGB mode
+        im = im.convert("RGB")
+        # Resize the image
+        im = im.resize(size)
+        width, height = im.size
+
+        # Get all pixel data (each pixel is a tuple of (R, G, B))
+        pixels = list(im.getdata())
+
+        # Flatten to raw bytes
+        rgb_data = bytearray()
+        for r, g, b in pixels:
+            rgb_data.extend([r, g, b])
+
+    return bytes(rgb_data)
+
+def sendPixels(rgb: tuple, position: list)
 
 class IPixelController:
     def __init__(self, address: str):
@@ -57,9 +80,30 @@ class IPixelController:
 
     async def set_upside_down(self, isDown: int):
         bArr = bytearray([0x05, 0x00, 0x06, 0x00, 0x00])
-        i = 0
+        i = 180
         bArr[4] = i
         await self.client.write_gatt_char(WRITE_CHAR_UUID, bArr, response=False)
+
+    async def sendSportData(self, mode: int, speed: int, decimal: int):
+        bArr = bytearray([0x07, 0x00, 0x06, 0x00, 0x00, 0x00, 0x00])
+        bArr[4] = mode
+        bArr[5] = speed
+        bArr[6] = decimal
+        await self.client.write_gatt_char(WRITE_CHAR_UUID, bArr, response=False)
+
+    async def setDiyFunMode(self, mode: int):
+        bArr = bytearray([0x05, 0x00, 0x04, 0x01, 0x00])
+        bArr[4] = mode
+        await self.client.write_gatt_char(WRITE_CHAR_UUID, bArr, response=False)
+
+    async def writeImageToSign(self):
+        image_path = input("Path to image: ").strip()
+        rgb_data = image_to_rgb(image_path, size=(16, 16))
+        if len(rgb_data) != (16*16)*3:
+            print("Something went wrong :(")
+        
+                    
+        
 
 async def main():
     mac = input("Enter device MAC address: ").strip()
@@ -70,9 +114,12 @@ async def main():
     commands = {
         "1": ("Turn LED ON", lambda: device.send_led_on_off(1)),
         "2": ("Turn LED OFF", lambda: device.send_led_on_off(0)),
-        "3": ("Send clock mode", lambda: device.send_clock_mode(8, 1, 1)),
-        "4": ("Delete all data", lambda: device.delete_all_data()),
-        "5": ("Set upside down", lambda: device.set_upside_down(1)),
+        "3": ("Send clock mode", lambda: device.send_clock_mode(5, 0, 0)),
+        "4": ("Delete all data (reset)", lambda: device.delete_all_data()),
+        "5": ("Set upside down < not working", lambda: device.set_upside_down(1)),
+        "6": ("Send sport data < not working", lambda: device.sendSportData(4, 40, 1)),
+        "7": ("Set diy fun mode < possibly needed for text", lambda: device.setDiyFunMode(1)),
+        "8": ("Send image", lambda: device.writeImageToSign()),
         "q": ("Quit", None),
     }
 

@@ -424,7 +424,7 @@ public interface BaseSend {
         if (BleManager.INSTANCE.get().getConnectedDevice() != null || AppConfig.INSTANCE.getConnectType() == 0) {
             sendCompat(bArr, callback);
         }
-        if (BleManager2.INSTANCE.get().getConnectedDevice() != null) {
+        if (BleManager2.STANCE.get().getConnectedDevice() != null) {
             sendCompat2(bArr, callback);
         }
         LogUtils.logi("SendCore>>>[setDiyFunMode]:" + mode, new Object[0]);
