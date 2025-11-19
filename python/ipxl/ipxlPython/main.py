@@ -2,6 +2,9 @@ import asyncio
 from bleak import BleakClient
 import PIL
 from PIL import Image, ImageColor
+from datetime import *
+from baseSend import BaseSend
+from display import Display
 
 WRITE_CHAR_UUID = "0000fa02-0000-1000-8000-00805f9b34fb"
 
@@ -23,8 +26,6 @@ def image_to_rgb(image_path: str, size=(16, 16)) -> bytes:
             rgb_data.extend([r, g, b])
 
     return bytes(rgb_data)
-
-def sendPixels(rgb: tuple, position: list)
 
 class IPixelController:
     def __init__(self, address: str):
@@ -49,11 +50,14 @@ class IPixelController:
         await self.client.write_gatt_char(WRITE_CHAR_UUID, packet, response=False)
         print(f"💡 LED {'ON' if on_off else 'OFF'} | Sent: {packet.hex()}")
 
+    async def sendCompat(self, bArr: bytearray):
+        await self.client.write_gatt_char(WRITE_CHAR_UUID, bArr, response=False)
+
     async def send_clock_mode(self, mode: int, timeScale: bool, showDate: bool):
         bArr = bytearray([0x11, 0x00, 0x06, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00])
         
         bArr[4] = mode
-        
+
         if timeScale:
             bArr[5] = 0
         else:
@@ -63,10 +67,10 @@ class IPixelController:
         else:
             bArr[6] = 0
 
-        year = 25
-        month = 11
-        day = 2
-        weekOfDate = 42
+        year = datetime.now().year - 2000
+        month = datetime.now().month
+        day = datetime.now().day
+        weekOfDate = datetime.now().date().isocalendar().week
         bArr[7] = year;
         bArr[8] = month;
         bArr[9] = day;
@@ -94,16 +98,13 @@ class IPixelController:
     async def setDiyFunMode(self, mode: int):
         bArr = bytearray([0x05, 0x00, 0x04, 0x01, 0x00])
         bArr[4] = mode
-        await self.client.write_gatt_char(WRITE_CHAR_UUID, bArr, response=False)
+        await self.client.write_gatt_char(WRITE_CHAR_UUID, bArr, response=False)    
 
-    async def writeImageToSign(self):
-        image_path = input("Path to image: ").strip()
-        rgb_data = image_to_rgb(image_path, size=(16, 16))
-        if len(rgb_data) != (16*16)*3:
-            print("Something went wrong :(")
-        
-                    
-        
+    async def send_text(self, text: str, rgb_color: tuple):
+        # Display.sendText returns the byte array to be sent
+        data_to_send = Display.sendText(text, rgb_color)
+        await self.client.write_gatt_char(WRITE_CHAR_UUID, data_to_send, response=False)
+        print(f"📝 Sent text: '{text}' with color {rgb_color}")
 
 async def main():
     mac = input("Enter device MAC address: ").strip()
@@ -114,12 +115,15 @@ async def main():
     commands = {
         "1": ("Turn LED ON", lambda: device.send_led_on_off(1)),
         "2": ("Turn LED OFF", lambda: device.send_led_on_off(0)),
-        "3": ("Send clock mode", lambda: device.send_clock_mode(5, 0, 0)),
+        "3": ("Send clock mode", lambda: device.send_clock_mode(5, 1, 1)),
         "4": ("Delete all data (reset)", lambda: device.delete_all_data()),
         "5": ("Set upside down < not working", lambda: device.set_upside_down(1)),
         "6": ("Send sport data < not working", lambda: device.sendSportData(4, 40, 1)),
         "7": ("Set diy fun mode < possibly needed for text", lambda: device.setDiyFunMode(1)),
-        "8": ("Send image", lambda: device.writeImageToSign()),
+        "8": ("Placeholder", lambda: print("FUCK YOU")),
+        "9": ("Send rhythm", lambda: device.sendCompat(BaseSend.sendRhytm(1, 1))),
+        "10": ("Set led light", lambda: device.sendCompat(BaseSend.setLedLight(0))),
+        "11": ("Send text", lambda: device.send_text(input("Enter text: "), (255, 0, 0))), # New option
         "q": ("Quit", None),
     }
 
