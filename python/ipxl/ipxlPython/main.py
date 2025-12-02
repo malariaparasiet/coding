@@ -107,7 +107,7 @@ class IPixelController:
         print(f"📝 Sent text: '{text}' with color {rgb_color}")
 
 async def main():
-    mac = input("Enter device MAC address: ").strip()
+    mac = ("C9:51:78:CE:54:3D").strip() # ja ja dit hardcoden is niet goed voor andere gebruikers maar ik wens NIEMAND deze code toe dus zal wel goed zijn
     device = IPixelController(mac)
     await device.connect()
 
